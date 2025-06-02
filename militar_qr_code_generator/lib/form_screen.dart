@@ -45,7 +45,7 @@ class _FormFillScreenState extends State<FormFillScreen> {
               PlatformDispatcher.instance.views.first.devicePixelRatio,
           child: ListView(
             children: [
-              SizedBox(height: 10),
+              SizedBox(height: 100),
               CustomTextField(
                 controller: widget.usernameController,
                 labelText: "الاسم رباعي",
@@ -81,14 +81,16 @@ class _FormFillScreenState extends State<FormFillScreen> {
                 hintText: "الرقم التسلسلي",
               ),
               SizedBox(height: 10),
-              DropdownButton<String>(
-                value: selectedCollege == "" ? "الكليه" : selectedCollege,
-                items: widget.CollegeList,
-                onChanged: (value) {
-                  setState(() {
-                    selectedCollege = value.toString().trim();
-                  });
-                },
+              Center(
+                child: DropdownButton<String>(
+                  value: selectedCollege == "" ? "الكليه" : selectedCollege,
+                  items: widget.CollegeList,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCollege = value.toString().trim();
+                    });
+                  },
+                ),
               ),
               SizedBox(height: 10),
               Container(

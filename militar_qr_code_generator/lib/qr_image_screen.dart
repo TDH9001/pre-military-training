@@ -24,10 +24,19 @@ class QrImageScreen extends StatelessWidget {
           children: [
             SizedBox(height: 100),
 
+            // RepaintBoundary(
+            //   child: Center(
+            //     child: QrImageView(
+            //       data: s,
+            //       version: QrVersions.auto,
+            //       size: 300,
+            //     ),
+            //   ),
+            // ),
             RepaintBoundary(
               child: Center(
                 child: QrImageView(
-                  data: s,
+                  data: encrypted.base64,
                   version: QrVersions.auto,
                   size: 300,
                 ),
@@ -40,25 +49,16 @@ class QrImageScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
-            RepaintBoundary(
-              child: Center(
-                child: QrImageView(
-                  data: encrypted.base64,
-                  version: QrVersions.auto,
-                  size: 300,
-                ),
-              ),
-            ),
-            RepaintBoundary(
-              child: Center(
-                child: QrImageView(
-                  data: decripted,
-                  version: QrVersions.auto,
-                  size: 300,
-                ),
-              ),
-            ),
 
+            // RepaintBoundary(
+            //   child: Center(
+            //     child: QrImageView(
+            //       data: decripted,
+            //       version: QrVersions.auto,
+            //       size: 300,
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 50),
           ],
         ),
