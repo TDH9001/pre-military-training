@@ -2,6 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:militar_qr_code_generator/custom_text_field.dart';
+import 'package:militar_qr_code_generator/qr_data_model.dart';
+import 'package:militar_qr_code_generator/qr_image_screen.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class FormFillScreen extends StatefulWidget {
   FormFillScreen({super.key});
@@ -47,22 +50,26 @@ class _FormFillScreenState extends State<FormFillScreen> {
                 controller: widget.usernameController,
                 labelText: "الاسم رباعي",
                 hintText: "الاسم رباعي",
+                keyboardType: TextInputType.name,
               ),
               SizedBox(height: 10),
               CustomTextField(
                 controller: widget.addressController,
                 labelText: "العنوان",
                 hintText: "العنوان",
+                keyboardType: TextInputType.streetAddress,
               ),
               SizedBox(height: 10),
               CustomTextField(
                 controller: widget.nationalIdController,
                 labelText: "الرقم القومي",
                 hintText: "الرقم القومي",
+                keyboardType: TextInputType.number,
               ),
               SizedBox(height: 10),
               CustomTextField(
                 controller: widget.phoneController,
+                keyboardType: TextInputType.phone,
                 labelText: "رقم الهاتف",
                 hintText: "رقم الهاتف",
               ),
@@ -70,6 +77,7 @@ class _FormFillScreenState extends State<FormFillScreen> {
               CustomTextField(
                 controller: widget.serialController,
                 labelText: "الرقم التسلسلي",
+                keyboardType: TextInputType.number,
                 hintText: "الرقم التسلسلي",
               ),
               SizedBox(height: 10),
@@ -90,12 +98,34 @@ class _FormFillScreenState extends State<FormFillScreen> {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    if (selectedCollege == "") {
+                    if (selectedCollege == "" || selectedCollege == "الكليه") {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text("برجاء اختيار الكلية")),
                       );
                     } else {
-                      if (widget.Formkey.currentState!.validate()) {}
+                      if (widget.Formkey.currentState!.validate()) {
+                        QrDataModel qrDataModel = QrDataModel(
+                          student_name: widget.usernameController.text,
+                          national_id: widget.nationalIdController.text,
+                          serial_number: widget.serialController.text,
+                          student_phone_number: widget.phoneController.text,
+                          faculty: selectedCollege,
+                          address: widget.addressController.text,
+                        );
+                        //                         QrImageView(
+                        //   data: '1234567890',
+                        //   version: QrVersions.auto,
+                        //   size: 200.0,
+                        // ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    QrImageScreen(s: qrDataModel.toString()),
+                          ),
+                        );
+                      }
                     }
                   },
                   child: Text("انشاْ الكود"),

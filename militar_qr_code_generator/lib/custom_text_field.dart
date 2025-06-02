@@ -6,13 +6,16 @@ class CustomTextField extends StatelessWidget {
     required this.controller,
     required this.labelText,
     required this.hintText,
+    required this.keyboardType,
   });
   final TextEditingController controller;
   final String labelText;
   final String hintText;
+  final TextInputType keyboardType;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
       controller: controller,
       textDirection: TextDirection.rtl,
       decoration: InputDecoration(
@@ -43,7 +46,7 @@ class CustomTextField extends StatelessWidget {
             return "ادخل رقم صحيح";
           }
         } else if (labelText == "الرقم التسلسلي") {
-          if (!(value is int)) {
+          if (value.length < 1) {
             return "ادخل رقم ";
           }
         } else if (labelText == "الكليه") {
