@@ -24,7 +24,19 @@ class QrDataModel {
   });
   @override
   String toString() {
-    // TODO: implement toString
     return "$student_name ||| $national_id ||| $serial_number |||  $student_phone_number |||  $faculty |||  $address |||  $date |||  $day |||  $arrival_time |||  $leave_time";
   }
+
+  Map<String, dynamic> toMap() => {
+    'student_name': student_name,
+    'national_id': national_id,
+    'serial_number': serial_number,
+    'student_phone_number': student_phone_number,
+    'faculty': faculty,
+    'address': address,
+    'date': date,
+    'day': day,
+    'arrival_time': arrival_time,
+    'leave_time': leave_time,
+  };
 }
