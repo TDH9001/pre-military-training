@@ -49,10 +49,9 @@ class CustomTextField extends StatelessWidget {
           if (value.length < 1) {
             return "ادخل رقم ";
           }
-        } else if (labelText == "الكليه") {
-          return "awaiting finishing a list of colleges";
+        } else {
+          return null;
         }
-        return null;
       },
     );
   }

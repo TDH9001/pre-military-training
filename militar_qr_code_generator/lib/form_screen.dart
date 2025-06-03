@@ -18,13 +18,8 @@ class FormFillScreen extends StatefulWidget {
 
   final TextEditingController phoneController = TextEditingController();
 
-  //final TextEditingController nameController = TextEditingController();
+  final TextEditingController collegeController = TextEditingController();
   final TextEditingController serialController = TextEditingController();
-
-  final List<DropdownMenuItem<String>> CollegeList = [
-    DropdownMenuItem(child: Text("الكليه"), value: "الكليه"),
-    DropdownMenuItem(child: Text("العلوم"), value: "العلوم"),
-  ];
 
   @override
   State<FormFillScreen> createState() => _FormFillScreenState();
@@ -81,17 +76,23 @@ class _FormFillScreenState extends State<FormFillScreen> {
                 hintText: "الرقم التسلسلي",
               ),
               SizedBox(height: 10),
-              Center(
-                child: DropdownButton<String>(
-                  value: selectedCollege == "" ? "الكليه" : selectedCollege,
-                  items: widget.CollegeList,
-                  onChanged: (value) {
-                    setState(() {
-                      selectedCollege = value.toString().trim();
-                    });
-                  },
-                ),
+              CustomTextField(
+                controller: widget.collegeController,
+                labelText: "الكليه",
+                keyboardType: TextInputType.name,
+                hintText: "الكليه",
               ),
+              // Center(
+              //   child: DropdownButton<String>(
+              //     value: selectedCollege == "" ? "الكليه" : selectedCollege,
+              //     items: widget.CollegeList,
+              //     onChanged: (value) {
+              //       setState(() {
+              //         selectedCollege = value.toString().trim();
+              //       });
+              //     },
+              //   ),
+              // ),
               SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
@@ -100,34 +101,24 @@ class _FormFillScreenState extends State<FormFillScreen> {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    if (selectedCollege == "" || selectedCollege == "الكليه") {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("برجاء اختيار الكلية")),
+                    if (widget.Formkey.currentState!.validate()) {
+                      QrDataModel qrDataModel = QrDataModel(
+                        student_name: widget.usernameController.text.trim(),
+                        national_id: widget.nationalIdController.text.trim(),
+                        serial_number: widget.serialController.text.trim(),
+                        student_phone_number:
+                            widget.phoneController.text.trim(),
+                        faculty: widget.collegeController.text.trim(),
+                        address: widget.addressController.text.trim(),
                       );
-                    } else {
-                      if (widget.Formkey.currentState!.validate()) {
-                        QrDataModel qrDataModel = QrDataModel(
-                          student_name: widget.usernameController.text,
-                          national_id: widget.nationalIdController.text,
-                          serial_number: widget.serialController.text,
-                          student_phone_number: widget.phoneController.text,
-                          faculty: selectedCollege,
-                          address: widget.addressController.text,
-                        );
-                        //                         QrImageView(
-                        //   data: '1234567890',
-                        //   version: QrVersions.auto,
-                        //   size: 200.0,
-                        // ),
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) =>
-                                    QrImageScreen(s: qrDataModel.toString()),
-                          ),
-                        );
-                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  QrImageScreen(s: qrDataModel.toString()),
+                        ),
+                      );
                     }
                   },
                   child: Text("انشاْ الكود"),
