@@ -10,7 +10,7 @@ class QrImageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //  List<String> list = s.split("|||");
-    //using ARS symetric encryption
+    //using AES symetric encryption
     var key = enc.Key.fromUtf8("8332767606048159");
     "8332767606048159";
     final iV = enc.IV.fromBase16(key.base16);
