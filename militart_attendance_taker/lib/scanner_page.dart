@@ -12,6 +12,12 @@ class QRScannerPage extends StatefulWidget {
     detectionTimeoutMs: 1000,
     // detectionSpeed: DetectionSpeed.noDuplicates,
   );
+
+  @override
+  State<QRScannerPage> createState() => _QRScannerPageState();
+}
+
+class _QRScannerPageState extends State<QRScannerPage> {
   String? student_name = "";
   String? national_id = "";
   String? serial_number = "";
@@ -22,12 +28,6 @@ class QRScannerPage extends StatefulWidget {
   String? day = "";
   String? arrival_time = "";
   String? leave_time = "";
-
-  @override
-  State<QRScannerPage> createState() => _QRScannerPageState();
-}
-
-class _QRScannerPageState extends State<QRScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,16 +73,16 @@ class _QRScannerPageState extends State<QRScannerPage> {
                       );
                       dev.log(qr.toString());
                       setState(() {
-                        widget.student_name = qr.student_name;
-                        widget.national_id = qr.national_id;
-                        widget.serial_number = qr.serial_number;
-                        widget.student_phone_number = qr.student_phone_number;
-                        widget.faculty = qr.faculty;
-                        widget.address = qr.address;
-                        widget.date = qr.date;
-                        widget.day = qr.day;
-                        widget.arrival_time = qr.arrival_time;
-                        widget.leave_time = qr.leave_time;
+                        student_name = qr.student_name;
+                        national_id = qr.national_id;
+                        serial_number = qr.serial_number;
+                        student_phone_number = qr.student_phone_number;
+                        faculty = qr.faculty;
+                        address = qr.address;
+                        date = qr.date;
+                        day = qr.day;
+                        arrival_time = qr.arrival_time;
+                        leave_time = qr.leave_time;
                       });
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -112,16 +112,16 @@ class _QRScannerPageState extends State<QRScannerPage> {
           ),
           SizedBox(height: 50),
           Center(child: Text("معلومات الطالب", style: TextStyle(fontSize: 20))),
-          Center(child: Text("اسم الطالب: ${widget.student_name!}")),
-          Center(child: Text("رقم الطالب القومي: ${widget.national_id!}")),
-          Center(child: Text("رقم التسلسل: ${widget.serial_number!}")),
-          Center(child: Text("رقم الهاتف: ${widget.student_phone_number!}")),
-          Center(child: Text("الكلية: ${widget.faculty!}")),
-          Center(child: Text("العنوان: ${widget.address!}")),
-          Center(child: Text("التاريخ: ${widget.date!}")),
-          Center(child: Text("اليوم: ${widget.day!}")),
-          Center(child: Text("وقت الوصول: ${widget.arrival_time!}")),
-          Center(child: Text("وقت الخروج: ${widget.leave_time!}")),
+          Center(child: Text("اسم الطالب: ${student_name!}")),
+          Center(child: Text("رقم الطالب القومي: ${national_id!}")),
+          Center(child: Text("رقم التسلسل: ${serial_number!}")),
+          Center(child: Text("رقم الهاتف: ${student_phone_number!}")),
+          Center(child: Text("الكلية: ${faculty!}")),
+          Center(child: Text("العنوان: ${address!}")),
+          Center(child: Text("التاريخ: ${date!}")),
+          Center(child: Text("اليوم: ${day!}")),
+          Center(child: Text("وقت الوصول: ${arrival_time!}")),
+          Center(child: Text("وقت الخروج: ${leave_time!}")),
         ],
       ),
     );
