@@ -49,9 +49,8 @@ class CustomTextField extends StatelessWidget {
           if (value.length < 1) {
             return "ادخل رقم ";
           }
-        } else {
-          return null;
         }
+        return null;
       },
     );
   }

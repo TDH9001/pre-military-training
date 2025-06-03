@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:militar_qr_code_generator/custom_text_field.dart';
 import 'package:militar_qr_code_generator/qr_data_model.dart';
 import 'package:militar_qr_code_generator/qr_image_screen.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class FormFillScreen extends StatefulWidget {
   FormFillScreen({super.key});

@@ -3,13 +3,13 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:encrypt/encrypt.dart' as enc;
 
 class QrImageScreen extends StatelessWidget {
-  QrImageScreen({super.key, required this.s});
+  const QrImageScreen({super.key, required this.s});
   final String s;
   //encryprtion key : 8332767606048159
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = s.split("|||");
+    //  List<String> list = s.split("|||");
     //using ARS symetric encryption
     var key = enc.Key.fromUtf8("8332767606048159");
     "8332767606048159";
@@ -17,7 +17,7 @@ class QrImageScreen extends StatelessWidget {
     final encrypter = enc.Encrypter(enc.AES(key));
 
     final encrypted = encrypter.encrypt(s, iv: iV);
-    final decripted = encrypter.decrypt64(encrypted.base64, iv: iV);
+    // final decripted = encrypter.decrypt64(encrypted.base64, iv: iV);
     return Scaffold(
       body: Center(
         child: ListView(
