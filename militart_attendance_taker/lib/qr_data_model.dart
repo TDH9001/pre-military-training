@@ -9,18 +9,20 @@ class QrDataModel {
   String? day;
   String? arrival_time;
   String? leave_time;
+  DateTime? created_at;
 
   QrDataModel({
-    this.student_name,
-    this.national_id,
-    this.serial_number,
-    this.student_phone_number,
-    this.faculty,
-    this.address,
-    this.date,
-    this.day,
-    this.arrival_time,
-    this.leave_time,
+    required this.student_name,
+    required this.national_id,
+    required this.serial_number,
+    required this.student_phone_number,
+    required this.faculty,
+    required this.address,
+    required this.date,
+    required this.day,
+    required this.arrival_time,
+    required this.leave_time,
+    required this.created_at,
   });
   @override
   String toString() {
@@ -38,5 +40,21 @@ class QrDataModel {
     'day': day,
     'arrival_time': arrival_time,
     'leave_time': leave_time,
+    "created_at": created_at,
   };
+  static QrDataModel fromJson(Map e) {
+    return QrDataModel(
+      student_name: e['student_name'],
+      national_id: e['national_id'],
+      serial_number: e['serial_number'],
+      student_phone_number: e['student_phone_number'],
+      faculty: e['faculty'],
+      address: e['address'],
+      date: e['date'],
+      day: e['day'],
+      arrival_time: e['arrival_time'],
+      leave_time: e['leave_time'],
+      created_at: e['created_at'],
+    );
+  }
 }

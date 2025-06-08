@@ -4,6 +4,8 @@ import 'dart:developer' as dev;
 import 'package:encrypt/encrypt.dart' as enc;
 
 import 'package:qr_reader/qr_data_model.dart';
+import 'package:qr_reader/qr_functionalities.dart';
+import 'package:qr_reader/student_info_caching_service.dart';
 
 class QRScannerPage extends StatefulWidget {
   QRScannerPage({super.key});
@@ -28,6 +30,10 @@ class _QRScannerPageState extends State<QRScannerPage> {
   String? day = "";
   String? arrival_time = "";
   String? leave_time = "";
+
+  //this value is used to determine if the QR is valid or not or if used or not
+  //do not feel like using state managment
+  bool is_valid = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +46,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
               width: 300,
               child: MobileScanner(
                 controller: widget.crt,
-                onDetect: (barcodes) {
-                  dev.log(barcodes.barcodes.first.rawValue!.toString());
+                onDetect: (barcodes) async {
+                  // dev.log(barcodes.barcodes.first.rawValue!.toString());
                   //logic for storing ther new QR ino the DB
                   //display snackbar only if 1.new QR  > 2. has about 30 mins of no scan
                   try {
@@ -53,12 +59,18 @@ class _QRScannerPageState extends State<QRScannerPage> {
                       barcodes.barcodes.first.rawValue!.toString(),
                       iv: iV,
                     );
-                    dev.log(decripted);
+                    //  dev.log(decripted);
 
                     List<String> obtained_data = decripted.split("|||");
-                    dev.log(obtained_data.toString());
+                    // dev.log(obtained_data.toString());
+
+                    // widget.crt.pause();
+
+                    //cutoff for funcs
+
                     if (obtained_data.length == 6) {
                       QrDataModel qr = QrDataModel(
+                        created_at: DateTime.now(),
                         student_name: obtained_data[0],
                         national_id: obtained_data[1],
                         serial_number: obtained_data[2],
@@ -69,27 +81,58 @@ class _QRScannerPageState extends State<QRScannerPage> {
                         day: DateTime.now().weekday.toString(),
                         arrival_time:
                             "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
-                        leave_time: "TBD",
+                        leave_time: "لم يسجل بعد",
                       );
                       dev.log(qr.toString());
-                      setState(() {
-                        student_name = qr.student_name;
-                        national_id = qr.national_id;
-                        serial_number = qr.serial_number;
-                        student_phone_number = qr.student_phone_number;
-                        faculty = qr.faculty;
-                        address = qr.address;
-                        date = qr.date;
-                        day = qr.day;
-                        arrival_time = qr.arrival_time;
-                        leave_time = qr.leave_time;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("تم فحص الكود"),
-                          backgroundColor: Colors.greenAccent,
-                        ),
-                      );
+                      var studentList =
+                          await StudentInfoCachingService.getStoredStudentsInfo();
+                      dev.log(studentList.toString());
+
+                      List result = await QrFunctionalities()
+                          .checkIfUserIsAttendedButDidNotPass30Mins(
+                            qr,
+                            context,
+                          );
+                      if (result == [0]) {
+                        studentList.add(qr);
+                        await StudentInfoCachingService.saveStudentInfo(
+                          studentList,
+                        );
+                        //  dev.log("added the user to the box");
+                        setState(() {
+                          student_name = qr.student_name;
+                          national_id = qr.national_id;
+                          serial_number = qr.serial_number;
+                          student_phone_number = qr.student_phone_number;
+                          faculty = qr.faculty;
+                          address = qr.address;
+                          date = qr.date;
+                          day = qr.day;
+                          arrival_time = qr.arrival_time;
+                          leave_time = qr.leave_time;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("تم فحص الكود"),
+                            backgroundColor: Colors.greenAccent,
+                          ),
+                        );
+                      } else if (result[0] == 2) {
+                        QrDataModel attendedStudent = result[1] as QrDataModel;
+                        setState(() {
+                          student_name = attendedStudent.student_name;
+                          national_id = attendedStudent.national_id;
+                          serial_number = attendedStudent.serial_number;
+                          student_phone_number =
+                              attendedStudent.student_phone_number;
+                          faculty = attendedStudent.faculty;
+                          address = attendedStudent.address;
+                          date = attendedStudent.date;
+                          day = attendedStudent.day;
+                          arrival_time = attendedStudent.arrival_time;
+                          leave_time = attendedStudent.leave_time;
+                        });
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -106,6 +149,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
                       ),
                     );
                   }
+
+                  //to pause the taking of scanningfs > as scanner will take as much scans of 1 code as it can
                 },
               ),
             ),

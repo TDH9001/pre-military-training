@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qr_reader/scanner_page.dart';
+import 'package:qr_reader/student_info_caching_service.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  await StudentInfoCachingService.initHive();
   runApp(const MyApp());
 }
 
