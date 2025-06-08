@@ -83,10 +83,11 @@ class _QRScannerPageState extends State<QRScannerPage> {
                             "${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}",
                         leave_time: "لم يسجل بعد",
                       );
-                      dev.log(qr.toString());
+
+                      //  dev.log(qr.toString());
                       var studentList =
                           await StudentInfoCachingService.getStoredStudentsInfo();
-                      dev.log(studentList.toString());
+                      // dev.log(studentList.toString());
 
                       List result = await QrFunctionalities()
                           .checkIfUserIsAttendedButDidNotPass30Mins(
@@ -113,7 +114,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text("تم فحص الكود"),
+                            content: Text("تم تسجيل حضور الطالب الكود"),
                             backgroundColor: Colors.greenAccent,
                           ),
                         );

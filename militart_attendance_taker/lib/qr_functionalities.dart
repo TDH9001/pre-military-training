@@ -13,14 +13,7 @@ class QrFunctionalities {
   ) async {
     var studentList = await StudentInfoCachingService.getStoredStudentsInfo();
     for (int i = 0; i < studentList.length; i++) {
-      //add logic for leaves here
-      dev.log(studentList[i].national_id.toString());
-      dev.log(qr.national_id.toString());
       if (studentList[i].national_id == qr.national_id) {
-        // dev.log(
-        //   "diff ${studentList[i].created_at!.difference(DateTime.now()).inSeconds}",
-        // );
-        //vaue is in negatives
         if (studentList[i].created_at!.difference(DateTime.now()).inSeconds <
             -30) //this means that user is already attended and passed 30-mins
         {
@@ -67,6 +60,6 @@ class QrFunctionalities {
         }
       }
     }
-    return [0]; // 0 means user is not yet attended
+    return [0]; // 0 means user is not yet attended > will be registed as new
   }
 }
