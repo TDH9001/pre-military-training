@@ -63,11 +63,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
                     //  dev.log(decripted);
 
                     List<String> obtained_data = decripted.split("|||");
-                    // dev.log(obtained_data.toString());
-
-                    // widget.crt.pause();
-
-                    //cutoff for funcs
 
                     if (obtained_data.length == 6) {
                       QrDataModel qr = QrDataModel(

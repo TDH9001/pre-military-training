@@ -14,7 +14,7 @@ class QrFunctionalities {
     var studentList = await StudentInfoCachingService.getStoredStudentsInfo();
     for (int i = 0; i < studentList.length; i++) {
       if (studentList[i].national_id == qr.national_id) {
-        if (studentList[i].created_at!.difference(DateTime.now()).inSeconds <
+        if (studentList[i].created_at!.difference(DateTime.now()).inMinutes <
             -30) //this means that user is already attended and passed 30-mins
         {
           QrDataModel newModdel = QrDataModel(
