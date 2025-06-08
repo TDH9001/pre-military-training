@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'dart:developer' as dev;
 import 'package:encrypt/encrypt.dart' as enc;
+import 'package:qr_reader/json_storage_service.dart';
 
 import 'package:qr_reader/qr_data_model.dart';
 import 'package:qr_reader/qr_functionalities.dart';
@@ -168,6 +169,11 @@ class _QRScannerPageState extends State<QRScannerPage> {
           Center(child: Text("اليوم: ${day!}")),
           Center(child: Text("وقت الوصول: ${arrival_time!}")),
           Center(child: Text("وقت الخروج: ${leave_time!}")),
+          SizedBox(height: 50),
+          ElevatedButton(
+            onPressed: JsonStorageService.exportAttendanceDataToJson,
+            child: Text("data to json"),
+          ),
         ],
       ),
     );

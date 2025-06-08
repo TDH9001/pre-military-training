@@ -57,4 +57,18 @@ class QrDataModel {
       created_at: e['created_at'],
     );
   }
+
+  Map<String, dynamic> toMapWithoutDateTime() => {
+    'student_name': student_name,
+    'national_id': national_id,
+    'serial_number': serial_number,
+    'student_phone_number': student_phone_number,
+    'faculty': faculty,
+    'address': address,
+    'date': date,
+    'day': day,
+    'arrival_time': arrival_time,
+    'leave_time': leave_time,
+    // "created_at": created_at,
+  };
 }
