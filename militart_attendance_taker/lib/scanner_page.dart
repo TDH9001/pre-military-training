@@ -43,15 +43,17 @@ class _QRScannerPageState extends State<QRScannerPage> {
           SizedBox(height: 50),
           Center(
             child: Container(
-              height: 300,
-              width: 300,
+              height: MediaQuery.of(context).size.height * 0.5,
+              width: MediaQuery.of(context).size.width * 0.5,
               child: MobileScanner(
                 controller: widget.crt,
                 onDetect: (barcodes) async {
+                  dev.log(barcodes.barcodes.first.rawValue!.toString());
                   // dev.log(barcodes.barcodes.first.rawValue!.toString());
                   //logic for storing ther new QR ino the DB
                   //display snackbar only if 1.new QR  > 2. has about 30 mins of no scan
                   try {
+                    dev.log("ENTEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEED");
                     var key = enc.Key.fromUtf8("8332767606048159");
                     "8332767606048159";
                     final iV = enc.IV.fromBase16(key.base16);
@@ -90,7 +92,8 @@ class _QRScannerPageState extends State<QRScannerPage> {
                             qr,
                             context,
                           );
-                      if (result == [0]) {
+                      dev.log(result.toString());
+                      if (result[0] == 0) {
                         studentList.add(qr);
                         await StudentInfoCachingService.saveStudentInfo(
                           studentList,
@@ -139,6 +142,15 @@ class _QRScannerPageState extends State<QRScannerPage> {
                       );
                     }
                   } on Exception catch (e) {
+                    dev.log(e.toString());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("الكود غير صحيح"),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  } catch (e) {
+                    dev.log(e.toString());
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text("الكود غير صحيح"),
@@ -165,9 +177,17 @@ class _QRScannerPageState extends State<QRScannerPage> {
           Center(child: Text("وقت الوصول: ${arrival_time!}")),
           Center(child: Text("وقت الخروج: ${leave_time!}")),
           SizedBox(height: 50),
-          ElevatedButton(
-            onPressed: JsonStorageService.exportAttendanceDataToJson,
-            child: Text("data to json"),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.greenAccent,
+            ),
+            child: ElevatedButton(
+              onPressed: () {
+                JsonStorageService.exportAttendanceDataToJson(context);
+              },
+              child: Text("استخراج البيانات", style: TextStyle(fontSize: 20)),
+            ),
           ),
         ],
       ),
