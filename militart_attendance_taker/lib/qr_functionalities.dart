@@ -56,6 +56,7 @@ class QrFunctionalities {
           );
           return [
             1,
+            studentList[i],
           ]; //1 means user is already attended and not yet passed 30-mins
         }
       }

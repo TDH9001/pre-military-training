@@ -17,6 +17,10 @@ class StudentInfoCachingService {
 
   static Future<void> clearBox() async {
     await box.clear();
+    await box.delete('attendance_records');
+    await box.close();
+    box = await Hive.openBox('studentInfo');
+    //all fo this to make a 1000000% sure every piece of data in this box is completly gone for good 
   }
 
   static Future<List<QrDataModel>> getStoredStudentsInfo() async {

@@ -53,7 +53,6 @@ class _QRScannerPageState extends State<QRScannerPage> {
                   //logic for storing ther new QR ino the DB
                   //display snackbar only if 1.new QR  > 2. has about 30 mins of no scan
                   try {
-                    dev.log("ENTEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEED");
                     var key = enc.Key.fromUtf8("8332767606048159");
                     "8332767606048159";
                     final iV = enc.IV.fromBase16(key.base16);
@@ -118,6 +117,21 @@ class _QRScannerPageState extends State<QRScannerPage> {
                           ),
                         );
                       } else if (result[0] == 2) {
+                        QrDataModel attendedStudent = result[1] as QrDataModel;
+                        setState(() {
+                          student_name = attendedStudent.student_name;
+                          national_id = attendedStudent.national_id;
+                          serial_number = attendedStudent.serial_number;
+                          student_phone_number =
+                              attendedStudent.student_phone_number;
+                          faculty = attendedStudent.faculty;
+                          address = attendedStudent.address;
+                          date = attendedStudent.date;
+                          day = attendedStudent.day;
+                          arrival_time = attendedStudent.arrival_time;
+                          leave_time = attendedStudent.leave_time;
+                        });
+                      } else if (result[0] == 1) {
                         QrDataModel attendedStudent = result[1] as QrDataModel;
                         setState(() {
                           student_name = attendedStudent.student_name;
