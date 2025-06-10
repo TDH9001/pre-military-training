@@ -49,8 +49,8 @@
     mobile_scanner: ^7.0.0 : https://pub.dev/packages/mobile_scanner
     encrypt: ^5.0.3 : https://pub.dev/packages/encrypt
     hive: ^2.2.3 :  https://pub.dev/packages/hive
-    hive_flutter: ^1.1.0 : hive_flutter: ^1.1.0
-    external_path: ^2.2.0 : external_path: ^2.2.0
+    hive_flutter: ^1.1.0 : (https://pub.dev/packages/hive_flutter)
+    external_path: ^2.2.0 : https://pub.dev/packages/external_path)
 
    The logic is simple and should not be problematic to understand
    i tried to comment and log the whole process in the code , in addition to a history of commits 
